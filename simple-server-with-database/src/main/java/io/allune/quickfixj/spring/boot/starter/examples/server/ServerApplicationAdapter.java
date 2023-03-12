@@ -15,24 +15,32 @@
  */
 package io.allune.quickfixj.spring.boot.starter.examples.server;
 
+import io.allune.quickfixj.spring.boot.starter.examples.server.mock.FromAppMsgHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import quickfix.Application;
+import quickfix.FieldNotFound;
 import quickfix.Message;
 import quickfix.SessionID;
 
 public class ServerApplicationAdapter implements Application {
 
 	private static final Logger log = LoggerFactory.getLogger(ServerApplicationAdapter.class);
+	private FromAppMsgHolder fromAppMsgHolder;
 
 	@Override
 	public void fromAdmin(Message message, SessionID sessionId) {
 		log.info("fromAdmin: Message={}, SessionId={}", message, sessionId);
 	}
 
+	public void setFromAppMsgHolder(FromAppMsgHolder fromAppMsgHolder) {
+		this.fromAppMsgHolder = fromAppMsgHolder;
+	}
+
 	@Override
-	public void fromApp(Message message, SessionID sessionId) {
+	public void fromApp(Message message, SessionID sessionId) throws FieldNotFound {
 		log.info("fromApp: Message={}, SessionId={}", message, sessionId);
+		fromAppMsgHolder.handle(message, sessionId);
 	}
 
 	@Override

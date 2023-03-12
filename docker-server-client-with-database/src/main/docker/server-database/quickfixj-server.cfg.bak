@@ -22,5 +22,26 @@ JdbcLogIncomingTable=messages_log
 JdbcLogOutgoingTable=messages_log
 
 [session]
+BeginString=FIX.4.0
+SocketAcceptPort=9876
+
+[session]
+BeginString=FIX.4.1
+SocketAcceptPort=9877
+
+[session]
 BeginString=FIX.4.2
 SocketAcceptPort=9878
+
+[session]
+BeginString=FIX.4.3
+SocketAcceptPort=9879
+
+[session]
+BeginString=FIX.4.4
+SocketAcceptPort=9880
+
+[session]
+BeginString=FIXT.1.1
+DefaultApplVerID=FIX.5.0
+SocketAcceptPort=9881

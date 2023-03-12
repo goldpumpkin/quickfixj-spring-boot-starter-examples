@@ -32,7 +32,7 @@ public class MySQLConfiguration {
 	public DataSource dataSource() {
 		final BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://mysqldb-server:3306/quickfix");
+		dataSource.setUrl("jdbc:mysql://mysqldb-client:3306/quickfix");
 		dataSource.setUsername("testuser");
 		dataSource.setPassword("testuser");
 		return dataSource;

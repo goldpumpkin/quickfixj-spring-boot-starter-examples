@@ -3,6 +3,7 @@ services:
 
   busybox:
     image: busybox
+    container_name: busybox
     depends_on:
       mysqldb-server:
         condition: service_healthy
@@ -26,7 +27,7 @@ services:
       - "9800:8000"
       - "9080:8080"
     healthcheck:
-      test: "netstat -nl | grep -q 9881"
+      test: "netstat -nl | grep -q 9878"
       interval: 6s
       timeout: 3s
       retries: 10
@@ -46,13 +47,14 @@ services:
       - "9801:8000"
       - "9081:8080"
     healthcheck:
-      test: "netstat -natu | grep 'ESTABLISHED' | grep 9881"
+      test: "netstat -natu | grep 'ESTABLISHED' | grep 9878"
       interval: 6s
       timeout: 3s
       retries: 10
 
   mysqldb-server:
     image: mysql
+    container_name: mysqldb-server
     volumes:
       - ./database:/docker-entrypoint-initdb.d
     restart: always
@@ -70,6 +72,7 @@ services:
 
   mysqldb-client:
     image: mysql
+    container_name: mysqldb-client
     volumes:
       - ./database:/docker-entrypoint-initdb.d
     restart: always

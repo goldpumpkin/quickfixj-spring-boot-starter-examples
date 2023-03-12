@@ -20,14 +20,24 @@ import quickfix.FieldNotFound;
 import quickfix.IncorrectTagValue;
 import quickfix.SessionID;
 import quickfix.UnsupportedMessageType;
+import quickfix.fix41.ExecutionReport;
 import quickfix.fix41.MessageCracker;
 
 @Slf4j
 public class ApplicationMessageCracker extends MessageCracker {
 
 	@Override
+	public void onMessage(ExecutionReport message, SessionID sessionID) throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+		final String s = message.toString();
+		log.info("[Client-ApplicationMessageCracker] message:{}", s);
+
+		final String raw = message.toRawString();
+		log.info("[Client-ApplicationMessageCracker] raw:{}", raw);
+	}
+
+	@Override
 	public void onMessage(quickfix.fix41.OrderCancelRequest orderCancelRequest, SessionID sessionID)
-			throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
+		throws FieldNotFound, UnsupportedMessageType, IncorrectTagValue {
 
 		// Handle the message here
 		log.info("*****************");

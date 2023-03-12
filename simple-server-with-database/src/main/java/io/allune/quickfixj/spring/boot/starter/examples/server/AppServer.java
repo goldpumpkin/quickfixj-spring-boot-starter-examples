@@ -16,20 +16,14 @@
 package io.allune.quickfixj.spring.boot.starter.examples.server;
 
 import io.allune.quickfixj.spring.boot.starter.EnableQuickFixJServer;
+import io.allune.quickfixj.spring.boot.starter.examples.server.mock.FromAppMsgHolder;
+import io.allune.quickfixj.spring.boot.starter.examples.server.mock.NewHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import quickfix.Acceptor;
-import quickfix.Application;
-import quickfix.ConfigError;
-import quickfix.JdbcLogFactory;
-import quickfix.JdbcStoreFactory;
-import quickfix.LogFactory;
-import quickfix.MessageFactory;
-import quickfix.MessageStoreFactory;
-import quickfix.SessionSettings;
-import quickfix.ThreadedSocketAcceptor;
+import quickfix.*;
+import quickfix.field.MsgType;
 
 import javax.sql.DataSource;
 
@@ -43,17 +37,19 @@ public class AppServer {
 	}
 
 	@Bean
-	public Application serverApplication() {
-		return new ServerApplicationAdapter();
+	public Application serverApplication(FromAppMsgHolder fromAppMsgHolder) {
+		final ServerApplicationAdapter serverApplicationAdapter = new ServerApplicationAdapter();
+		serverApplicationAdapter.setFromAppMsgHolder(fromAppMsgHolder);
+		return serverApplicationAdapter;
 	}
 
 	@Bean
 	public Acceptor serverAcceptor(quickfix.Application serverApplication, MessageStoreFactory serverMessageStoreFactory,
-	                               SessionSettings serverSessionSettings, LogFactory serverLogFactory,
-	                               MessageFactory serverMessageFactory) throws ConfigError {
+								   SessionSettings serverSessionSettings, LogFactory serverLogFactory,
+								   MessageFactory serverMessageFactory) throws ConfigError {
 
 		return new ThreadedSocketAcceptor(serverApplication, serverMessageStoreFactory, serverSessionSettings,
-				serverLogFactory, serverMessageFactory);
+			serverLogFactory, serverMessageFactory);
 	}
 
 	@Bean
@@ -68,5 +64,12 @@ public class AppServer {
 		JdbcLogFactory jdbcLogFactory = new JdbcLogFactory(serverSessionSettings);
 		jdbcLogFactory.setDataSource(dataSource);
 		return jdbcLogFactory;
+	}
+
+	@Bean
+	public FromAppMsgHolder fromAppMsgHolder(NewHandler newHandler) {
+		final FromAppMsgHolder holder = new FromAppMsgHolder();
+		holder.set(new MsgType(MsgType.ORDER_SINGLE), newHandler);
+		return holder;
 	}
 }

@@ -15,31 +15,22 @@
  */
 package io.allune.quickfixj.spring.boot.starter.examples.client;
 
-import io.allune.quickfixj.spring.boot.starter.examples.client.mock.NewOrderSingleSender;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
+import quickfix.*;
 
-@Slf4j
-@RequestMapping("/fix")
-@RestController
+import java.util.ArrayList;
+
+@Service
 @AllArgsConstructor
-public class TestController {
+public class MsgSender {
 
-	private final NewOrderSingleSender newOrderSingleSender;
+	private final Initiator initiator;
 
-	@GetMapping("/test")
-	public String test() throws Exception {
-		log.info("test");
-		return "success";
-	}
-
-	@GetMapping("/new-order-single")
-	public String newOrderSingle() throws Exception {
-		newOrderSingleSender.send();
-		return "new order single";
+	public void send(Message message) throws SessionNotFound {
+		final ArrayList<SessionID> sessions = initiator.getSessions();
+		final SessionID sessionId = sessions.get(0);
+		Session.sendToTarget(message, sessionId);
 	}
 
 
