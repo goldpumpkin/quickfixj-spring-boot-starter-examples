@@ -41,7 +41,7 @@ The simple client example can be run directly from the IDE or in the command lin
 
 To build the docker containers:
 
-    mvn clean install -DskipDocker=false
+     mvn clean install -DskipDocker=false -DskipTests=true -Pdocker
 
 ==== Client-Server
 

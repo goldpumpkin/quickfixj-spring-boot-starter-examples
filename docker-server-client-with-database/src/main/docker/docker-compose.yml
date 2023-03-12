@@ -14,7 +14,7 @@ services:
         condition: service_healthy
 
   quickfixj-spring-boot-server:
-    image: allune/simple-server-database
+    image: goldpumpkin/simple-server-database
     container_name: quickfixj-spring-boot-server
     environment:
       JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n -Xmx512m -Xms512m -Dspring.profiles.active=docker"
@@ -32,7 +32,7 @@ services:
       retries: 10
 
   quickfixj-spring-boot-client:
-    image: allune/simple-client-database
+    image: goldpumpkin/simple-client-database
     container_name: quickfixj-spring-boot-client
     environment:
       JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n -Xmx512m -Xms512m -Dspring.profiles.active=docker"

@@ -54,8 +54,8 @@
 		<java.version>1.8</java.version>
 
 		<skipDocker>true</skipDocker>
-		<docker.image.prefix>allune</docker.image.prefix>
-		<quickfixj-spring-boot-starter.version>2.15.0</quickfixj-spring-boot-starter.version>
+		<docker.image.prefix>goldpumpkin</docker.image.prefix>
+		<quickfixj-spring-boot-starter.version>2.15.2</quickfixj-spring-boot-starter.version>
 	</properties>
 
 	<dependencyManagement>
@@ -165,7 +165,7 @@
 				<plugin>
 					<groupId>io.fabric8</groupId>
 					<artifactId>docker-maven-plugin</artifactId>
-					<version>0.28.0</version>
+					<version>0.40.3</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
